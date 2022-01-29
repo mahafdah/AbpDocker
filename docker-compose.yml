@@ -4,8 +4,7 @@ services:
   web:
     image: abpdockerweb
     ports:
-      - 9005:443
-      - 9000:80
+      - 9005:80
     build:
       context: .
       dockerfile: src/AbpDocker.Web/Dockerfile
@@ -15,8 +14,7 @@ services:
   identityserver:
     image: abpdockeridentityserver
     ports:
-      - 9006:443
-      - 9001:80
+      - 9006:80
     build:
       context: .
       dockerfile: src/AbpDocker.IdentityServer/Dockerfile
@@ -26,8 +24,7 @@ services:
   httpapi:
     image: abpdockerhttpapihost
     ports:
-      - 9007:443
-      - 9002:80
+      - 9007:80
     build:
       context: .
       dockerfile: src/AbpDocker.HttpApi.Host/Dockerfile
