@@ -16,6 +16,7 @@ services:
       - 9005:80
     depends_on:
       - database
+      - redis
 
   identityserver:
     image: abpdockeridentityserver
@@ -32,6 +33,7 @@ services:
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
     depends_on:
       - database
+      - redis
 
   httpapi:
     image: abpdockerhttpapihost
@@ -48,6 +50,15 @@ services:
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
     depends_on:
       - database
+      - redis
+
+  redis:
+    image: redis:6.2-alpine
+    restart: always
+    ports:
+      - '6379:6379'
+    volumes: 
+      - cache:/data
 
   database:
     image: mcr.microsoft.com/mssql/server:2019-latest
@@ -62,4 +73,6 @@ services:
 
 volumes:
    database.volume:
+   cache:
+    driver: local
 
