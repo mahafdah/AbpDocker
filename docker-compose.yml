@@ -3,31 +3,49 @@ version: '3.4'
 services:
   web:
     image: abpdockerweb
-    ports:
-      - 9005:80
     build:
       context: .
       dockerfile: src/AbpDocker.Web/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:80
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+    ports:
+      - 9005:80
     depends_on:
       - database
 
   identityserver:
     image: abpdockeridentityserver
-    ports:
-      - 9006:80
     build:
       context: .
       dockerfile: src/AbpDocker.IdentityServer/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:80
+    ports:
+      - 9006:80
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
     depends_on:
       - database
 
   httpapi:
     image: abpdockerhttpapihost
-    ports:
-      - 9007:80
     build:
       context: .
       dockerfile: src/AbpDocker.HttpApi.Host/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:80
+    ports:
+     - 9007:80
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
     depends_on:
       - database
 
